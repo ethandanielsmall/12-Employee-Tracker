@@ -1,6 +1,8 @@
 // const mysql = require("mysql");
 const inquirer = require("inquirer");
 
+// connection needed?
+
 // main menu with options
 
 function mainMenu() {
@@ -88,7 +90,16 @@ function viewEmployees() {
 // ------------------------------------------ ADD ROLE
 
 // ------------------------------------------ VIEW DEPARTMENTS
-
+function viewDepartments() {
+    connection.query(`SELECT * FROM department`, (err, res) => {
+      if (err) throw err;
+      figlet('Departments', (err, result) => {
+        console.log(err || result);
+      });
+      printTable(res);
+      start();
+    });
+  };
 // ------------------------------------------ ADD DEPARTMENT
 
 // ------------------------------------------ REMOVE DEPARTMENT
