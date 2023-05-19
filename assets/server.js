@@ -1,4 +1,3 @@
-// const mysql = require("mysql");
 const inquirer = require("inquirer");
 
 var connection = mysql.createConnection({
@@ -7,8 +6,6 @@ var connection = mysql.createConnection({
   user: "root",
   database: "employeeTrackerDB"
 });
-
-// main menu with options
 
 function mainMenu() {
     console.log("you have reached the main menu!")
@@ -67,7 +64,6 @@ function mainMenu() {
 
 mainMenu();
 
-// ------------------------------------------ VIEW EMPLOYEES
 function viewEmployees() {
     connection.query(`SELECT e.id, e.first_name, e.last_name, d.name AS department, r.title, r.salary`, (err, res) => {
       if (err) throw err;
@@ -79,17 +75,6 @@ function viewEmployees() {
     });
   };
 
-// ------------------------------------------ ADD EMPLOYEES
-
-// ------------------------------------------ REMOVE EMPLOYEE
-
-// ------------------------------------------ VIEW ROLES
-
-// ------------------------------------------ UPDATE EMPLOYEE ROLE
-
-// ------------------------------------------ ADD ROLE
-
-// ------------------------------------------ VIEW DEPARTMENTS
 function viewDepartments() {
     connection.query(`SELECT * FROM department`, (err, res) => {
       if (err) throw err;
@@ -100,6 +85,3 @@ function viewDepartments() {
       start();
     });
   };
-// ------------------------------------------ ADD DEPARTMENT
-
-// ------------------------------------------ REMOVE DEPARTMENT
