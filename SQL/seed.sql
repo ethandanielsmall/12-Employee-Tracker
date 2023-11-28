@@ -8,18 +8,18 @@ INSERT INTO department (name)
 VALUES ("Medical");
 
 INSERT INTO employee (first_name, last_name, department_id)
-VALUES ("Jean-Luc", "Picard", 3);
+VALUES ("Jean-Luc", "Picard", 1);
 INSERT INTO employee (first_name, last_name, department_id)
-VALUES ("William", "Riker", 2, 1);
+VALUES ("William", "Riker", 1);
 INSERT INTO employee (first_name, last_name, department_id)
-VALUES ("Deanna", "Troi", 3, null);
+VALUES ("Deanna", "Troi", 3);
 INSERT INTO employee (first_name, last_name, department_id)
-VALUES ("Data", "Soong", 4, 3);
+VALUES ("Data", "Soong", 2);
 INSERT INTO employee (first_name, last_name, department_id)
-VALUES ("Geordi", "LaForge", 5, null);
+VALUES ("Geordi", "LaForge", 2);
 INSERT INTO employee (first_name, last_name, department_id)
-VALUES ("Beverly", "Crusher", 2, null);
+VALUES ("Beverly", "Crusher", 3);
 INSERT INTO employee (first_name, last_name, department_id)
-VALUES ("Wesley", "Crusher", 4, 7);
+VALUES ("Wesley", "Crusher", 1);
 INSERT INTO employee (first_name, last_name, department_id)
-VALUES ("Worf", "Lazarenko", 1, 2);
+VALUES ("Worf", "Lazarenko", 1);
