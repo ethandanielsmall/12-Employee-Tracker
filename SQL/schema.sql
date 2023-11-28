@@ -1,8 +1,8 @@
-DROP DATABASE IF EXISTS employeeTrackerDB;
+DROP DATABASE IF EXISTS EnterpriseTrackerDB;
 
-CREATE DATABASE employeeTrackerDB;
+CREATE DATABASE EnterpriseTrackerDB;
 
-USE employeeTrackerDB;
+USE EnterpriseTrackerDB;
 
 CREATE TABLE departments (
   id INT NOT NULL AUTO_INCREMENT,
@@ -10,7 +10,7 @@ CREATE TABLE departments (
   PRIMARY KEY (id)
 );
 
-CREATE TABLE employee (
+CREATE TABLE officer (
   id INT NOT NULL AUTO_INCREMENT,
   first_name VARCHAR(50) NULL,
   last_name VARCHAR(50) NULL,
