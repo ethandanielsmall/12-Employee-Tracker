@@ -1,8 +1,6 @@
-//dependencies required
 const mysql = require("mysql");
 const inquirer = require("inquirer");
 require("console.table");
-//const sql = require("./sql");
 
 //mysql connection
 const connection = mysql.createConnection({
@@ -21,45 +19,44 @@ connection.connect(function (err) {
 
 // function which prompts the user for what action they should take
 function firstPrompt() {
-
   inquirer
     .prompt({
       type: "list",
       name: "task",
       message: "Would you like to do?",
       choices: [
-        "View Employees",
-        "View Employees by Department",
-        "Add Employee",
-        "Remove Employees",
-        "Update Employee Role",
-        "Add Role",
+        "View Officers",
+        "View Officers by Department",
+        "Add Officer",
+        "Remove Officers",
+        "Update Officer Department",
+        "Add Department",
         "End"]
     })
     .then(function ({ task }) {
       switch (task) {
-        case "View Employees":
-          viewEmployee();
+        case "View Officers":
+          viewOfficer();
           break;
 
-        case "View Employees by Department":
-          viewEmployeeByDepartment();
+        case "View Officers by Department":
+          viewOfficersByDepartment();
           break;
       
-        case "Add Employee":
-          addEmployee();
+        case "Add Officer":
+          addOfficer();
           break;
 
-        case "Remove Employees":
-          removeEmployees();
+        case "Remove Officers":
+          removeOfficers();
           break;
 
-        case "Update Employee Role":
-          updateEmployeeRole();
+        case "Update Officer Department":
+          updateOfficerRole();
           break;
 
-        case "Add Role":
-          addRole();
+        case "Add Department":
+          addDepartment();
           break;
 
         case "End":
@@ -70,24 +67,24 @@ function firstPrompt() {
 }
 
 //View Employees/ READ all, SELECT * FROM
-function viewEmployee() {
-  console.log("Viewing employees\n");
+function viewOfficer() {
+  console.log("Viewing officers\n");
 
   var query =
     `SELECT e.id, e.first_name, e.last_name, r.title, d.name AS department, r.salary, CONCAT(m.first_name, ' ', m.last_name) AS manager
-  FROM employee e
+  FROM Officer e
   LEFT JOIN role r
 	ON e.role_id = r.id
   LEFT JOIN department d
   ON d.id = r.department_id
-  LEFT JOIN employee m
+  LEFT JOIN Officer m
 	ON m.id = e.manager_id`
 
   connection.query(query, function (err, res) {
     if (err) throw err;
 
     console.table(res);
-    console.log("Employees viewed!\n");
+    console.log("Officers viewed!\n");
 
     firstPrompt();
   });
@@ -96,12 +93,12 @@ function viewEmployee() {
 
 //"View Employees by Department" / READ by, SELECT * FROM
 // Make a department array
-function viewEmployeeByDepartment() {
-  console.log("Viewing employees by department\n");
+function viewOfficersByDepartment() {
+  console.log("Viewing officers by department\n");
 
   var query =
     `SELECT d.id, d.name, r.salary AS budget
-  FROM employee e
+  FROM Officer e
   LEFT JOIN role r
 	ON e.role_id = r.id
   LEFT JOIN department d
@@ -122,7 +119,7 @@ function viewEmployeeByDepartment() {
   });
 }
 
-// User choose the department list, then employees pop up
+// User choose the department list, then Officers pop up
 function promptDepartment(departmentChoices) {
 
   inquirer
@@ -139,7 +136,7 @@ function promptDepartment(departmentChoices) {
 
       var query =
         `SELECT e.id, e.first_name, e.last_name, r.title, d.name AS department 
-  FROM employee e
+  FROM Officer e
   JOIN role r
 	ON e.role_id = r.id
   JOIN department d
@@ -150,7 +147,7 @@ function promptDepartment(departmentChoices) {
         if (err) throw err;
 
         console.table("response ", res);
-        console.log(res.affectedRows + "Employees are viewed!\n");
+        console.log(res.affectedRows + "Officers are viewed!\n");
 
         firstPrompt();
       });
@@ -158,9 +155,9 @@ function promptDepartment(departmentChoices) {
 }
 
 
-// Make a employee array
-function addEmployee() {
-  console.log("Inserting an employee!")
+// Make a Officer array
+function addOfficer() {
+  console.log("Inserting an officer!")
 
   var query =
     `SELECT r.id, r.title, r.salary 
@@ -187,24 +184,24 @@ function promptInsert(roleChoices) {
       {
         type: "input",
         name: "first_name",
-        message: "What is the employee's first name?"
+        message: "What is the officer's first name?"
       },
       {
         type: "input",
         name: "last_name",
-        message: "What is the employee's last name?"
+        message: "What is the officer's last name?"
       },
       {
         type: "list",
         name: "roleId",
-        message: "What is the employee's role?",
+        message: "What is the officer's role?",
         choices: roleChoices
       },
     ])
     .then(function (answer) {
       console.log(answer);
 
-      var query = `INSERT INTO employee SET ?`
+      var query = `INSERT INTO officer SET ?`
       // when finished prompting, insert a new item into the db with that info
       connection.query(query,
         {
@@ -226,35 +223,35 @@ function promptInsert(roleChoices) {
 
 //"Remove Employees" / DELETE, DELETE FROM
 // Make a employee array to delete
-function removeEmployees() {
-  console.log("Deleting an employee");
+function removeOfficers() {
+  console.log("Deleting an officer");
 
   var query =
     `SELECT e.id, e.first_name, e.last_name
-      FROM employee e`
+      FROM officer e`
 
   connection.query(query, function (err, res) {
     if (err) throw err;
 
-    const deleteEmployeeChoices = res.map(({ id, first_name, last_name }) => ({
+    const deleteOfficerChoices = res.map(({ id, first_name, last_name }) => ({
       value: id, name: `${id} ${first_name} ${last_name}`
     }));
 
     console.table(res);
     console.log("ArrayToDelete!\n");
 
-    promptDelete(deleteEmployeeChoices);
+    promptDelete(deleteOfficerChoices);
   });
 }
 
-// User choose the employee list, then employee is deleted
-function promptDelete(deleteEmployeeChoices) {
+// User choose the officer list, then officer is deleted
+function promptDelete(deleteOfficerChoices) {
 
   inquirer
     .prompt([
       {
         type: "list",
-        name: "employeeId",
+        name: "OfficerId",
         message: "Which employee do you want to remove?",
         choices: deleteEmployeeChoices
       }
@@ -263,7 +260,7 @@ function promptDelete(deleteEmployeeChoices) {
 
       var query = `DELETE FROM employee WHERE ?`;
       // when finished prompting, insert a new item into the db with that info
-      connection.query(query, { id: answer.employeeId }, function (err, res) {
+      connection.query(query, { id: answer.OfficerId }, function (err, res) {
         if (err) throw err;
 
         console.table(res);
@@ -335,9 +332,9 @@ function promptEmployeeRole(employeeChoices, roleChoices) {
     .prompt([
       {
         type: "list",
-        name: "employeeId",
-        message: "Which employee do you want to set with the role?",
-        choices: employeeChoices
+        name: "OfficerId",
+        message: "Which officer do you want to set with the role?",
+        choices: officerChoices
       },
       {
         type: "list",
@@ -348,11 +345,11 @@ function promptEmployeeRole(employeeChoices, roleChoices) {
     ])
     .then(function (answer) {
 
-      var query = `UPDATE employee SET role_id = ? WHERE id = ?`
+      var query = `UPDATE officer SET role_id = ? WHERE id = ?`
       // when finished prompting, insert a new item into the db with that info
       connection.query(query,
         [ answer.roleId,  
-          answer.employeeId
+          answer.OfficerId
         ],
         function (err, res) {
           if (err) throw err;
@@ -372,7 +369,7 @@ function addRole() {
 
   var query =
     `SELECT d.id, d.name, r.salary AS budget
-    FROM employee e
+    FROM officer e
     JOIN role r
     ON e.role_id = r.id
     JOIN department d
