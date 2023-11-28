@@ -5,7 +5,8 @@ require("console.table");
 //mysql connection
 const connection = mysql.createConnection({
     host: 'localhost',
-    port: 3307,
+    address: '127.0.0.1',
+    port: 3306,
     user: 'root',
     password: 'password',
     database: 'EnterpriseTrackerDB'
